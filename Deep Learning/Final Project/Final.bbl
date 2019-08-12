@@ -1,0 +1,9 @@
+\begin{thebibliography}{1}
+
+\bibitem{BN}
+S.~Ioffe and C.~Szegedy.
+\newblock Batch normalization: Accelerating deep network training by reducing
+  internal covariate shift.
+\newblock {\em CoRR}, abs/1502.03167, 2015.
+
+\end{thebibliography}

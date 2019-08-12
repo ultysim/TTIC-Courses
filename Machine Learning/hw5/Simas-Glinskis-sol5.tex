@@ -1,0 +1,48 @@
+\documentclass[]{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+%opening
+\title{Homework \#5}
+\author{Simas Glinskis}
+
+\begin{document}
+
+\maketitle
+Collaborated with Natasha Antropova
+\section*{Problem 1}
+\[
+p(y=c_1|x) = \frac{p(x|y=c_1)p(y=c_1)}{p(x,y=c_1)+p(x,y=c_2)}
+\]
+\[
+p(y=c_1|x) = \frac{p(x|y=c_1)p(y=c_1)}{p(x|y=c_1)p(y=c_1)+p(x|y=c_2)p(y=c_2)}
+\]
+\[
+p(y=c_1|x) = \frac{1}{1+\frac{p(x|y=c_2)}{p(x|y=c_1)}}
+\]
+Assuming $p(y=c_1) = p(y=c_2)$, now plugging in the Gaussians where the prefactors cancel out due to equal covariance matrices,
+\[
+\frac{p(x|y=c_2)}{p(x|y=c_1)} = \prod_{j=1}^{d}\frac{\exp(-1/2(x_j^2 - 2x_j\mu_{2,j} + \mu_{2,j}^2))}{\exp(-1/2(x_j^2 - 2x_j\mu_{1,j} + \mu_{1,j}^2))}
+\]
+\[
+\frac{p(x|y=c_2)}{p(x|y=c_1)} = \prod_{j=1}^{d}\exp(\frac{1}{2\sigma_j^2}((2x_j\mu_{2,j} - \mu_{2,j}^2)-(2x_j\mu_{1,j} - \mu_{1,j}^2)))
+\]
+\[
+\frac{p(x|y=c_2)}{p(x|y=c_1)} = \prod_{j=1}^{d}\exp(\frac{1}{2\sigma_j^2}(2x_j(\mu_{2,j}-\mu_{1,j})+\mu_{1,j}^2-\mu_{2,j}^2))
+\]
+\[
+\frac{p(x|y=c_2)}{p(x|y=c_1)} = \exp(\sum_{j=1}^{d}\frac{1}{2\sigma_j^2}(2x_j(\mu_{2,j}-\mu_{1,j})+\mu_{1,j}^2-\mu_{2,j}^2))
+\]
+\[
+\frac{p(x|y=c_2)}{p(x|y=c_1)} = \exp(w\cdot x + w_0)
+\]
+where, $w=\frac{1}{\sigma_j^2}(\mu_{2,j}-\mu_{1,j})$ and $w_0 = \sum_{j=1}^{d}\frac{1}{2\sigma_j^2}(\mu_{1,j}^2-\mu_{2,j}^2)$ and therefore,
+\[
+p(y=c_1|x) = \frac{1}{1+\exp(w\cdot x + w_0)}
+\]
+\section*{Problem 2}
+Logistic regression we classify if the sigmoid is $>0.5$ or $<0.5$ while the linear discriminant analysis picks the class that maximizes the probability of x given y. They will not have the same value. We maximize log likelihood, so the values will be negative as probability is bounded between 0 and 1.
+
+\section*{Problem 3}
+See attached notebook.
+\end{document}

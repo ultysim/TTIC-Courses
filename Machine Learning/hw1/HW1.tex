@@ -1,0 +1,96 @@
+\documentclass[]{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+%opening
+\title{Homework \#1}
+\author{Simas Glinskis}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem 1}
+Show:
+\[
+E[(y-\textbf{w*}^T\textbf{x})\textbf{a}^T\textbf{x})] = 0
+\]
+The idea is to first show the correlation is zero, then we need to show that $E[y-\textbf{w*}^T\textbf{x}]=0$. But first, let us revisit a derivation from class.
+
+We know that
+\[
+E[(\textbf{w*}^T\textbf{x}-\hat{\textbf{w}}^T\textbf{x})(\textbf{y}-\textbf{w*}^T\textbf{x})] = 0
+\]
+multiplying it out and considering the assumption that $E[\hat{\textbf{w}}^T\textbf{x}]=\textbf{w*}^T\textbf{x}$,
+\[
+E[\textbf{y}E[\hat{\textbf{w}}^T\textbf{x}]]-E[E[\hat{\textbf{w}}^T\textbf{x}]^2]-E[E[\hat{\textbf{w}}^T\textbf{x}]\textbf{y}] + E[E[\hat{\textbf{w}}^T\textbf{x}]\hat{\textbf{w}}^T\textbf{x}] = 0
+\]
+as $\textbf{y}$ is deterministic, and $E[E[x]]=E[x]$ the expression clearly cancels out.
+Armed with the fact that we can now state $E[\hat{\textbf{w}}^T\textbf{x}]=\textbf{w*}^T\textbf{x}$
+Using the definition of correlation from the problem, we can set $U=y-E[\hat{\textbf{w}}^T\textbf{x}]$ and $V=\textbf{a}^T\textbf{x}$. The correlation will be zero if $(U-E[U])=0$.
+Plugging in U:
+\[
+y-E[\hat{\textbf{w}}^T\textbf{x}]-E[y-E[\hat{\textbf{w}}^T\textbf{x}]] = y-E[\hat{\textbf{w}}^T\textbf{x}]-E[y]-E[\hat{\textbf{w}}^T\textbf{x}] = 0
+\]
+As the correlation is zero, we can state $E[UV] = E[U]E[V]$. As $\textbf{w*}^T\textbf{x}$ is the best possible fit, with zero error, the sum of $\textbf{y}-\textbf{w*}^T\textbf{x}$ is zero and therefore, $E[\textbf{y}-\textbf{w*}^T\textbf{x}] = 0$
+Thus, $E[UV] = 0$
+
+Another way of considering the solution, minimizing the least squared loss via gradient descent yields the argmin$_w$ of $\sum_{i}^{N}(\textbf{y}_i-\hat{\textbf{w}}^T\textbf{x})\textbf{x}_i$ and $\textbf{w*}$ is the $\textbf{w}$ that has zero loss. Therefore, the summation is zero and so is the expectation value.
+\section*{Problem 2}
+Already solved in Problem 1. If $E[UV]=0$ and $E[U]$ = 0, then $\rho(U,V) = 0$.
+\section*{Problem 3}
+Show, \[
+\hat{\textbf{w}}\cdot\textbf{x} = \hat{\tilde{\textbf{w}}}\cdot\tilde{\textbf{x}}
+\]
+Naively, as both $\tilde{\hat{w}}$ and $\hat{w}$ were trained on the same $y$ and minimized the same cost, their predictions should be the same. Thus $\hat{\tilde{w}}\cdot x = \hat{w}\cdot x$
+
+The cost is minimized for a trained $w$ thus the derivative is zero and we can write an expression for the $j$th component of $w$ as:
+\[
+\sum_{i}^{N}(y_i-\hat{w}\cdot x_i)x_{ij} = 0
+\]
+Similarly for $\tilde{w}$
+\[
+\sum_{i}^{N}(y_i-\hat{\tilde{w}}\cdot \tilde{x}_i)\tilde{x}_{ij} = 0
+\]
+As $\tilde{x}_{ij}=c_jx_{ij}$, 
+\[
+\sum_{i}^{N}(y_i-\hat{\tilde{w}}\cdot \tilde{x}_i)c_jx_{ij} = 0 \rightarrow \sum_{i}^{N}(y_i-\hat{\tilde{w}}\cdot \tilde{x}_i)x_{ij} = 0
+\]
+combining the two summations,
+\[
+\sum_{i}^{N}(y_i-\hat{\tilde{w}}\cdot \tilde{x}_i)x_{ij} = \sum_{i}^{N}(y_i-\hat{w}\cdot x_i)x_{ij}
+\]
+\[
+\sum_{i}^{N}(y_i-\hat{\tilde{w}}\cdot \tilde{x}_i) = \sum_{i}^{N}(y_i-\hat{w}\cdot x_i)
+\]
+\[
+\sum_{i}^{N}(\hat{\tilde{w}}\cdot \tilde{x}_i) = \sum_{i}^{N}(\hat{w}\cdot x_i)
+\]
+\[
+\hat{\textbf{w}}\cdot\textbf{x} = \hat{\tilde{\textbf{w}}}\cdot\tilde{\textbf{x}}
+\]
+\section*{Problem 4}
+We can write the ML estimate as,
+\[
+ML = -\frac{1}{2\sigma^2}\sum_{i=1}^{N}(y_i-f(x_i;w))^2-\frac{N}{2}\log(2\pi\sigma^2)
+\]
+maximizing ML, we can set $\frac{\partial ML}{\partial\sigma^2}=0$. Thus,
+\[
+\frac{\partial ML}{\partial\sigma^2} = \frac{1}{2\sigma^4}\sum_{i=1}^{N}(y_i-f(x_i;w))^2 -\frac{N}{2\sigma^2} = 0
+\]
+Thus, we can write $\sigma^2$ as:
+\[
+\sigma^2 = \frac{1}{N}\sum_{i=1}^{N}(y_i-f(x_i;w))^2
+\]
+Both the second and third degree polynomials fit the data well, but the second degree polynomial model has a lower validation loss. There is a clear inflection point in the data, which is why the linear model performs so poorly. 
+
+The third order polynomial model fits the data better for training, which is to be expected for a higher order polynomial. But, the validation loss is what matters, thus the second order polynomial model is the best model.
+
+Model A is quadratic.
+\section*{Problem 5}
+The validation loss values for the asymmetric loss are higher for all the models compared to the symmetric models. Also, visualizing the fits it is clear that the symmetric loss models are superior.
+
+Again, the second order polynomial model was the best model, thus model B is a quadratic. 
+
+Model A had a lower test error than model B, therefore model A is a better choice.
+\end{document}
